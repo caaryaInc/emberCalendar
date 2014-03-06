@@ -1,54 +1,34 @@
-App.Router.map(function () {
-  this.resource("dates", { path: "/" }, function() {
-	this.resource("date", { path: "/year/:year_id/month/:month_id/day/:day_id" });
-  });
-});
+App.Router.map -> 
+  @resource "dates", -> 
+	@resource "date",  path: "/year/:year/month/:month/day/:day" 
+  
 
-
-App.ApplicationRoute = Ember.Route.extend({
-  model : function(){
-  	var date = new Date();
-  	return {year: date.getFullYear(), month: date.getMonth(), day: date.getDate()};
-  },
-  redirect:function(model){
-	this.transitionTo('date',model);  
-  }
-});
-
-App.DatesRoute = Ember.Route.extend({
-  actions: {
-  	prevYear: function(model){
-  	  var year = model.year-1;
-  	  this.controllerFor('date').set('year',year);
-  	  this.transitionTo('date',model); 
- 	},
-	nextYear: function(model){
-	  var year = model.year+1;
-  	  this.controllerFor('date').set('year',year);
- 	  this.transitionTo('date',model);
-	},
-	prevMonth: function(model){
-	  var month = model.month-1;
-	  if(month<0)
-		month = 11;
-  	  this.controllerFor('date').set('month',month);
- 	  this.transitionTo('date',model);
-	},
-	nextMonth: function(model){
-	  var month = model.month+1;
-	   if(month>11)
-		month = 0;
-  	  this.controller('date').set('month',month);
- 	  this.transitionTo('date',model);
-	}
-  } 
-})
-
-App.DateRoute = Ember.Route.extend({
-  model: function(params) {
-	return {year: params.year_id, month: params.month_id, day: params.day_id};
-  },
-  serialize: function(model) {
-  	return { year_id: model.year, month_id: model.month+1, day_id: model.day};
-  } 
-});
+App.ApplicationRoute = Ember.Route.extend
+  model : ->
+  	new Date()
+  redirect: -> (model)
+	@transitionTo "date",model  
+  
+App.DateRoute = Ember.Route.extend
+  model: -> (params) 
+  	year : params.year
+  	month : params.month
+  	day: params.day
+	new Date(year,month,day)
+  serialize: -> (model) 
+  	{ year: model.getFullYear(), month: model.getMonth()+1, day: model.getDate() }
+  actions: 
+  	prevYear: -> (model)
+  	  year = model.year-1
+   	  @transitionTo "date",model 
+ 	nextYear: -> (model)
+	  year = model.year+1
+  	  @transitionTo "date",model
+	prevMonth: -> (model)
+	  month = model.month-1
+	  if month<0 then month = 11
+  	  @transitionTo "date",model
+	nextMonth: -> (model)
+	  month = model.month+1;
+	  if month>11 then month=0
+ 	  @transitionTo "date",model

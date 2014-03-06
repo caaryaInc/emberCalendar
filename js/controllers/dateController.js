@@ -24,7 +24,7 @@ App.DatesController = Ember.ArrayController.extend({
            date = this.get('day') ;
     return new Date(year,month,date)
   }.property('year','month','day'),
-  DatesinMonth: function(){
+  datesinMonth: function(){
 	var days = [],
 	month = this.get('month')+1,
 	year = this.get('year'),
