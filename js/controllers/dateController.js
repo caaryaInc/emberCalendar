@@ -1,34 +1,29 @@
-App.DateController = Ember.ArrayController.extend({
-  dateSet : function(){
-	return selDate;
-  }.property(),
-  year : function(){
-	return (this.get('dateSet').get('year'));
-  }.property('dateSet'),
-  month : function(){
-	return this.get('dateSet').get('month');
-  }.property('dateSet'),
-  monthName : function(){
-	var	monthNames = [ "January", "February", "March", "April", "May", "June",
-					"July", "August", "September", "October", "November", "December" ];
-	  return monthNames[this.get('month')];
-  }.property('month'),
-  date : function(){
-	return (this.get('dateSet').get('day'));
-  }.property('dateSet'),
-  currDate: function(){
-    var currentdate = new Date(),
-        formattedDate = this.get('month')+1 + "/"
-        + this.get('date')   + "/" 
-        + this.get('year') ;  
+App.DatesController = Ember.ArrayController.extend({
+	needs : "date",
+	year: function(){
+		return this.get('controllers.date').get('year');
+	}.property(),
+	month: function(){
+		return this.get('controllers.date').get('month');
+	}.property(),
+	day: function(){
+		return this.get('controllers.date').get('day');
+	}.property(),
+	date: function(){
+		return this.get('controllers.date').get('date');
+	}.property(),
+	currDate: function(){
+    var   formattedDate = this.get('month')+1 + "/"
+        + this.get('day')   + "/" 
+        + this.get('year') ;
     return formattedDate;
-  }.property('year','month','date'),
+  }.property('year','month','day'),
   fullDate: function(){
-	var year = this.get('year'),
-		month = this.get('month'),
-		date = this.get('date');
-	return new Date(year,month,date);
-  }.property('year','month','date'),
+     var   year = this.get('year'),
+           month = this.get('month'), 
+           date = this.get('day') ;
+    return new Date(year,month,date)
+  }.property('year','month','day'),
   DatesinMonth: function(){
 	var days = [],
 	month = this.get('month')+1,
@@ -37,6 +32,7 @@ App.DateController = Ember.ArrayController.extend({
   	for (var i=1; i<=noofdays; i++) {
         days.push(new Date(year, month-1,i));
     }
+            console.log(days);  
 	return days;
   }.property('year','month'),
   DatesofPrevMonth : function(){
@@ -76,8 +72,20 @@ App.DateController = Ember.ArrayController.extend({
 	for(i=0;i<dates.length;i+=7){
 		 week.push(dates.slice(i, i+7));
 	}
+	console.log(week);
 	return week;
-  }.property('DatesinCalendarMonth')
+  }.property('DatesinCalendarMonth') 
 });
 
-App.date = App.DateController.create({});
+
+
+App.DateController = Ember.ObjectController.extend({
+  date: function(){
+   	 var year = this.get('year'),
+   	 	 month = this.get('month'),
+   	 	 day = this.get('day'),
+   	 	 date = { year: year, month: month, day: day};
+   	 	 return date;
+  }.property('year','month','day')
+});
+

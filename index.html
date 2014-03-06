@@ -9,33 +9,35 @@
   <link rel="stylesheet" href="css/calendar.css">
 </head>
 <body>
-  <script type="text/x-handlebars">
+  <script type="text/x-handlebars" data-template-name="dates">
 	<section id="testcalendar" class="pagination-centered">
       <header id="header">
         <h3>Ember and Bootstrap test calendar</h3>
       </header>
-
-      <section id="container">
+     <section id="container">
 		<header id="innerheader" class="row text-center" style="margin-top: 30px;">
 		  <div class="col-md-9">
 		    <button type="button" class="btn btn-primary" {{action "today"}}>Today</button>
 		    <div class="btn-group" style="margin-left:20px;">
-		    <button type="button" class="btn btn-primary" {{action "prevYear"}} >Prev</button>
+		    <button type="button" class="btn btn-primary" {{action "prevYear" date}} >Prev</button>
 		    <button type="button" class="btn">
-			  <span> {{ App.date.year }} </span> 
+			  <span> {{ date.year }} </span> 
 		    </button>
-		    <button type="button" class="btn btn-primary" {{action "nextYear"}}>Next</button>
+		    <button type="button" class="btn btn-primary" {{action "nextYear" date}}>Next</button>
 		  </div>
 		  <div class="btn-group" style="margin-left:20px;">
-			<button type="button" class="btn btn-primary" {{action "prevMonth"}}> Prev </button>
+			<button type="button" class="btn btn-primary" {{action "prevMonth" date}}> Prev </button>
 			<button type="button" class="btn">
-			  <span>{{App.date.monthName}}</span>
+			  <span>{{monthName}}</span>
 			</button>
-			<button type="button" class="btn btn-primary" {{action "nextMonth"}}>Next</button>
+			<button type="button" class="btn btn-primary" {{action "nextMonth" date}}>Next</button>
 		  </div>
 		  </div>
-		  <div class="col-md-3"> <h5> {{App.date.currDate}}</h5> </div>
+		  <div class="col-md-3"> {{DatesinMonth}} <h5> </h5> </div>
 		</header>
+		{{#each DatesinMonth}}
+			<div> Hey </div>
+		{{/each}}
 		<section id = "datetable" style="margin-top: 25px;">
 		  <table class="table table-bordered text-center">  
 			<thead>  
@@ -50,26 +52,23 @@
 			  </tr>  
 			</thead>  
 			<tbody>  
-			  {{#each App.date.DatesinCalendarWeek}}
+			  {{#each DatesinMonth}}
 				<tr> 
 				  {{#each this}}
-					<td>
-				  	  {{#view App.dayView dateBinding="this" monthBinding="App.date.month" selectedBinding="App.date.fullDate"}}
-						<span {{action "changeDate" this}} style="cursor: pointer;"> {{view.dayNum}}  </span>
-					  {{/view}}
-					</td>	
-				  {{/each}}
+				  	<td> {{this}} </td>
+				   {{/each}}
 				</tr>
 			  {{/each}}
 			</tbody>  
 		  </table>
 	    </section>
-      </section>
+      </section> 
 	  <footer id="footer">
 		<p class="text-right">Created by Nikhil Gumma</p>
 	  </footer>
     </section>
-  </script>
+  </script> 
+
 
 <!-- Imports --> 
 

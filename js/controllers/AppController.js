@@ -1,4 +1,4 @@
-App.ApplicationController = Ember.ObjectController.extend({
+/*App.ApplicationController = Ember.ObjectController.extend({
   actions: {
 	prevYear: function(){
 	  // var model =  App.Date.FIXTURES[0];
@@ -59,4 +59,4 @@ App.ApplicationController = Ember.ObjectController.extend({
 	  this.transitionTo('date'); 
 	}
   }
-});
+}); */
